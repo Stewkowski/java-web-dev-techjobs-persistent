@@ -68,16 +68,27 @@ public class HomeController {
             }
         }
         jobRepository.save(newJob);
-        model.addAttribute("jobs", jobRepository.findAll());
+
+        //jobdata call findby to get the jobID
+        //Integer jobID = newJob.getId();
+        //model.addAttribute("jobs", jobRepository.findAll());
 
         return "redirect:";
     }
 
     @GetMapping("view/{jobId}")
-    public String displayViewJob(Model model, @PathVariable int jobId) {
+    public String displayViewJob( Model model, @PathVariable int jobId) {
 
+
+
+        Optional<Job> result = jobRepository.findById(jobId);
+
+        if(result.isEmpty()) {
+            return "redirect:";
+        }else{
+            Job job = result.get();
+            model.addAttribute("job", job);
+        }
         return "view";
     }
-
-
 }
