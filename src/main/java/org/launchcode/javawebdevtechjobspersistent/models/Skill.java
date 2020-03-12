@@ -30,5 +30,5 @@ public class Skill extends AbstractEntity {
     public List<Job> getJobs() {
         return jobs;
     }
-
+    
 }
