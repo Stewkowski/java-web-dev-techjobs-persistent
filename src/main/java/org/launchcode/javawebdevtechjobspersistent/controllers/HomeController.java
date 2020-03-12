@@ -2,6 +2,7 @@ package org.launchcode.javawebdevtechjobspersistent.controllers;
 
 import org.launchcode.javawebdevtechjobspersistent.models.Employer;
 import org.launchcode.javawebdevtechjobspersistent.models.Job;
+import org.launchcode.javawebdevtechjobspersistent.models.Skill;
 import org.launchcode.javawebdevtechjobspersistent.models.data.EmployerRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.JobRepository;
 import org.launchcode.javawebdevtechjobspersistent.models.data.SkillRepository;
@@ -35,6 +36,7 @@ public class HomeController {
     public String index(Model model) {
 
         model.addAttribute("title", "My Jobs");
+        model.addAttribute("jobs", jobRepository.findAll());
 
         return "index";
     }
@@ -58,6 +60,8 @@ public class HomeController {
         }else{
 
             Optional<Employer> result = employerRepository.findById(employerId);
+            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+
 
             if(result.isEmpty()){
                 model.addAttribute("title", "Add Job");
@@ -65,21 +69,16 @@ public class HomeController {
             }else{
                 Employer employer = result.get();
                 newJob.setEmployer(employer);
+                newJob.setSkills(skillObjs);
             }
         }
         jobRepository.save(newJob);
-
-        //jobdata call findby to get the jobID
-        //Integer jobID = newJob.getId();
-        //model.addAttribute("jobs", jobRepository.findAll());
 
         return "redirect:";
     }
 
     @GetMapping("view/{jobId}")
     public String displayViewJob( Model model, @PathVariable int jobId) {
-
-
 
         Optional<Job> result = jobRepository.findById(jobId);
 
