@@ -7,16 +7,17 @@ FROM job;
 
 SELECT name
 FROM employer
-WHERE (attending = "St. Louis City")
+WHERE (attending = "St. Louis City");
 
 ## Part 3: Test it with SQL
 
-DROP TABLE job
+DROP TABLE job;
 
 ## Part 4: Test it with SQL
 
 SELECT name, description
-FROM skill ORDER BY name
-INNER JOIN job_skills ON skill.id = job_skills.skills_id
-INNER JOIN job ON job_skills.job_id = job.id
-WHERE job_id IS NOT NULL
+FROM skill
+INNER JOIN job_skills
+ON skill.id = job_skills.skills_id
+WHERE job_skills.job_id IS NOT NULL
+ORDER BY name;
